@@ -1729,6 +1729,36 @@ ul {
 /*===============================================
   RESPONSIVE
 ===============================================*/
+/* Desktop Navigation - Force horizontal layout */
+@media screen and (min-width: 969px) {
+  .nav__menu {
+    display: flex !important;
+    align-items: center;
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    background-color: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    flex-direction: row !important;
+  }
+
+  .nav__list {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 2rem !important;
+    align-items: center !important;
+  }
+
+  .nav__close {
+    display: none !important;
+  }
+
+  .nav__toggle {
+    display: none !important;
+  }
+}
+
 @media screen and (max-width: 968px) {
   .nav__menu {
     position: fixed;
