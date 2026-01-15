@@ -467,6 +467,19 @@ ul {
   transform: scale(0.95);
 }
 
+.nav__menu {
+  display: flex;
+  align-items: center;
+}
+
+.nav__close {
+  display: none;
+}
+
+.nav__toggle {
+  display: none;
+}
+
 .theme-icon--dark,
 .theme-icon--light {
   transition: transform var(--transition-base), opacity var(--transition-base);
@@ -478,12 +491,6 @@ ul {
 
 :root.light-mode .theme-icon--light {
   display: block;
-}
-
-.nav__toggle,
-.nav__close {
-  display: none;
-  color: var(--color-text);
 }
 
 /*===============================================
