@@ -3,7 +3,7 @@
  * Vérifier les données de la table education
  */
 
-require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/../includes/db.php';
 
 try {
     $db = getDBConnection();

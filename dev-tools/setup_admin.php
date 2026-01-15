@@ -6,7 +6,7 @@
  * =====================================================
  */
 
-require_once __DIR__ . '/includes/db.php';
+require_once __DIR__ . '/../includes/db.php';
 
 $username = 'HLEBEHOT';
 $password = 'Lesperseverants1';

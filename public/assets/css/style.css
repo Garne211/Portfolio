@@ -127,7 +127,8 @@
     /* Glow effects */
     --glow-primary: 0 0 20px rgba(185, 28, 28, 0.15);
     --glow-primary-strong: 0 0 30px rgba(185, 28, 28, 0.25);
-}
+    
+    /* Z-index */
     --z-modal: 3000;
     --z-toast: 4000;
     
