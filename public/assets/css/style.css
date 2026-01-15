@@ -1478,7 +1478,7 @@ ul {
 .contact__container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-xl);
+  gap: 4rem;
   max-width: 1000px;
   margin: 0 auto;
 }
@@ -1528,7 +1528,7 @@ ul {
 .contact__info {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
+  gap: 2rem;
 }
 
 .contact__card {
