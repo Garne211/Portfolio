@@ -1481,6 +1481,7 @@ ul {
   gap: 4rem;
   max-width: 1000px;
   margin: 0 auto;
+  align-items: start;
 }
 
 .contact__form {
