@@ -4,7 +4,7 @@
  * Exécute tous les fichiers de migration dans database/migrations/
  */
 
-require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../config/config.php';
 
 echo "🔄 Exécution des migrations...\n\n";
 

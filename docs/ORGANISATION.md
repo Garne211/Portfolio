@@ -64,7 +64,7 @@
 ### Importer la config dans un fichier PHP
 ```php
 <?php
-require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../config/config.php';
 
 // Maintenant disponible :
 // - getDBConnection()

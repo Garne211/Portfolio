@@ -76,7 +76,7 @@ Portfolio/
 Importer la configuration centralisée :
 ```php
 <?php
-require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../config/config.php';
 
 // Maintenant disponible :
 // - ROOT_DIR, PUBLIC_DIR, ADMIN_DIR, API_DIR, UPLOADS_DIR
