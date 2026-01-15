@@ -1,6 +1,7 @@
 # Guide de Déploiement VPS - Portfolio
 
 ## 📋 Table des matières
+
 1. [Prérequis](#prérequis)
 2. [Préparation du VPS](#préparation-du-vps)
 3. [Déploiement automatique](#déploiement-automatique)
@@ -14,6 +15,7 @@
 ## 🔧 Prérequis
 
 ### Sur votre VPS Debian
+
 - Debian 10, 11 ou 12
 - Accès root ou sudo
 - Au moins 1 GB de RAM
@@ -21,6 +23,7 @@
 - Connexion Internet
 
 ### Logiciels requis (installés automatiquement)
+
 - Nginx
 - PHP 8.1+ (php-fpm)
 - MariaDB/MySQL
@@ -28,6 +31,7 @@
 - Certbot (pour SSL)
 
 ### Sur votre machine locale
+
 - Git installé
 - Accès SSH au VPS
 
@@ -90,6 +94,7 @@ sudo ./scripts/deploy/deploy-vps.sh
 3. **Suivre les instructions**
 
 Le script vous demandera :
+
 - Nom de la base de données
 - Utilisateur de la base de données
 - Mot de passe de la base de données
@@ -130,6 +135,7 @@ sudo mysql_secure_installation
 ```
 
 Répondez aux questions :
+
 - Set root password? **Y**
 - Remove anonymous users? **Y**
 - Disallow root login remotely? **Y**
@@ -207,6 +213,7 @@ try {
 ```
 
 Sécuriser le fichier :
+
 ```bash
 sudo chown www-data:www-data /var/www/portfolio/includes/db.php
 sudo chmod 600 /var/www/portfolio/includes/db.php
@@ -221,49 +228,49 @@ server {
     listen 80;
     listen [::]:80;
     server_name votre-domaine.com www.votre-domaine.com;
-    
+
     root /var/www/portfolio/public;
     index index.php index.html;
-    
+
     # Logs
     access_log /var/log/nginx/portfolio_access.log;
     error_log /var/log/nginx/portfolio_error.log;
-    
+
     # Sécurité
     server_tokens off;
     client_max_body_size 20M;
-    
+
     # Bloquer l'accès aux fichiers sensibles
     location ~ /\. {
         deny all;
     }
-    
+
     location ~ /(config|dev-tools|database|databases|logs|scripts) {
         deny all;
         return 404;
     }
-    
+
     # Cache pour fichiers statiques
     location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|woff|woff2|ttf|eot)$ {
         expires 1y;
         add_header Cache-Control "public, immutable";
     }
-    
+
     # Route principale
     location / {
         try_files $uri $uri/ /index.php?$query_string;
     }
-    
+
     # API routes
     location /api/ {
         try_files $uri $uri/ /api/index.php?$query_string;
     }
-    
+
     # Admin routes
     location /admin/ {
         try_files $uri $uri/ =404;
     }
-    
+
     # PHP-FPM
     location ~ \.php$ {
         include snippets/fastcgi-php.conf;
@@ -355,6 +362,7 @@ sudo crontab -e
 ```
 
 Ajouter cette ligne pour une sauvegarde quotidienne à 2h du matin :
+
 ```
 0 2 * * * /usr/local/bin/backup-portfolio.sh
 ```
@@ -373,6 +381,7 @@ pm.max_requests = 500
 ```
 
 Redémarrer PHP-FPM :
+
 ```bash
 sudo systemctl restart php8.1-fpm
 ```
@@ -515,6 +524,7 @@ sudo systemctl start fail2ban
 ## 📞 Support
 
 Pour toute question ou problème :
+
 - Consultez les logs : `/var/log/nginx/` et `/var/www/portfolio/logs/`
 - Vérifiez la documentation dans `/var/www/portfolio/docs/`
 - Consultez le fichier [TROUBLESHOOTING.md](TROUBLESHOOTING.md)

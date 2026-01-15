@@ -342,7 +342,11 @@ tbody tr:hover {
 
 .dashboard-card--welcome {
   grid-column: 1 / -1;
-  background: linear-gradient(135deg, var(--color-surface-2) 0%, var(--color-surface-3) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-surface-2) 0%,
+    var(--color-surface-3) 100%
+  );
 }
 
 /* =====================================================
@@ -371,7 +375,7 @@ tbody tr:hover {
 }
 
 .btn::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -601,7 +605,7 @@ tbody tr:hover {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto 1fr;
   }
-  
+
   .sidebar {
     grid-row: auto;
     grid-column: 1;
@@ -613,24 +617,24 @@ tbody tr:hover {
     transition: left var(--transition-base);
     z-index: var(--z-modal);
   }
-  
+
   .sidebar.active {
     left: 0;
   }
-  
+
   .main-content {
     padding: var(--spacing-4);
   }
-  
+
   .content-header {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .form-row {
     grid-template-columns: 1fr;
   }
@@ -641,23 +645,24 @@ tbody tr:hover {
     width: 100%;
     left: -100%;
   }
-  
+
   .main-content {
     padding: var(--spacing-3);
   }
-  
+
   .page-title {
     font-size: var(--text-2xl);
   }
-  
+
   .table-container {
     font-size: var(--text-xs);
   }
-  
-  th, td {
+
+  th,
+  td {
     padding: var(--spacing-2);
   }
-  
+
   .btn {
     padding: var(--spacing-2) var(--spacing-3);
     font-size: var(--text-xs);

@@ -74,6 +74,7 @@ Portfolio/
 ### Dans les fichiers PHP
 
 Importer la configuration centralisée :
+
 ```php
 <?php
 require_once __DIR__ . '/../config/config.php';

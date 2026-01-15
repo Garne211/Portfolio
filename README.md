@@ -40,6 +40,7 @@ sudo ./scripts/deploy/deploy-vps.sh
 ```
 
 Le script configure automatiquement :
+
 - ✅ Nginx
 - ✅ PHP-FPM 8.1+
 - ✅ MariaDB
@@ -65,6 +66,7 @@ cp config.example.php config.php
 ### 2. Vérifier .gitignore
 
 Le fichier `.gitignore` exclut automatiquement :
+
 - Configuration avec mots de passe (`config/config.php`)
 - Fichiers uploadés (`uploads/`)
 - Outils de développement (`dev-tools/`)
@@ -124,13 +126,13 @@ php dev-tools/setup_admin.php
 
 ## 📦 Fichiers Importants
 
-| Fichier | Description |
-|---------|-------------|
-| `.gitignore` | Fichiers à exclure de Git |
-| `config/config.example.php` | Template de configuration |
+| Fichier                        | Description                       |
+| ------------------------------ | --------------------------------- |
+| `.gitignore`                   | Fichiers à exclure de Git         |
+| `config/config.example.php`    | Template de configuration         |
 | `scripts/deploy/deploy-vps.sh` | Script de déploiement automatique |
-| `docs/DEPLOYMENT_VPS.md` | Guide complet de déploiement |
-| `docs/SECURITY.md` | Recommandations de sécurité |
+| `docs/DEPLOYMENT_VPS.md`       | Guide complet de déploiement      |
+| `docs/SECURITY.md`             | Recommandations de sécurité       |
 
 ## 🔒 Sécurité
 
@@ -158,10 +160,12 @@ chmod 600 /var/www/portfolio/config/config.php
 ## 🌐 URLs Importantes
 
 **Développement Local:**
+
 - Site : http://localhost/Portfolio/public/
 - Admin : http://localhost/Portfolio/admin/
 
 **Production:**
+
 - Site : https://votre-domaine.com/
 - Admin : https://votre-domaine.com/admin/
 
