@@ -1,0 +1,178 @@
+#!/bin/bash
+
+###############################################################################
+# Installation Portfolio - Compatible toutes versions Debian
+###############################################################################
+
+set -e
+
+echo "======================================================================"
+echo "Installation Portfolio"
+echo "======================================================================"
+
+if [[ $EUID -ne 0 ]]; then
+   echo "ERREUR: Exécutez avec sudo ou en tant que root"
+   exit 1
+fi
+
+echo "[1/7] Mise à jour système..."
+apt-get update
+apt-get upgrade -y
+
+echo "[2/7] Installation des outils de base..."
+apt-get install -y wget curl gnupg2 ca-certificates lsb-release
+
+echo "[3/7] Ajout dépôt Sury pour PHP..."
+curl -sSLo /tmp/debsuryorg-archive-keyring.deb https://packages.sury.org/debsuryorg-archive-keyring.deb
+dpkg -i /tmp/debsuryorg-archive-keyring.deb
+sh -c 'echo "deb [signed-by=/usr/share/keyrings/deb.sury.org-php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+
+echo "[4/7] Mise à jour avec nouveau dépôt..."
+apt-get update
+
+echo "[5/7] Installation PHP 8.2..."
+apt-get install -y php8.2-fpm php8.2-mysql php8.2-mbstring php8.2-xml php8.2-curl php8.2-zip php8.2-gd php8.2-intl php8.2-cli
+
+echo "[6/7] Installation Nginx et MariaDB..."
+apt-get install -y nginx mariadb-server mariadb-client git
+
+systemctl enable nginx mariadb
+systemctl start nginx mariadb
+
+echo "[7/7] Installation Certbot..."
+apt-get install -y certbot python3-certbot-nginx || echo "Certbot installé (peut installer plus tard)"
+
+echo ""
+echo "✅ Tous les logiciels sont installés !"
+echo ""
+
+# Configuration DB
+read -p "Nom base de données [portfolio_db]: " DB_NAME
+DB_NAME=${DB_NAME:-portfolio_db}
+
+read -p "Utilisateur DB [portfolio_user]: " DB_USER
+DB_USER=${DB_USER:-portfolio_user}
+
+read -sp "Mot de passe DB: " DB_PASS
+echo ""
+
+mysql <<MYSQL_SCRIPT
+CREATE DATABASE IF NOT EXISTS ${DB_NAME} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER IF NOT EXISTS '${DB_USER}'@'localhost' IDENTIFIED BY '${DB_PASS}';
+GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'localhost';
+FLUSH PRIVILEGES;
+MYSQL_SCRIPT
+
+echo "✅ Base de données configurée"
+
+# Copier fichiers
+APP_DIR="/var/www/portfolio"
+rm -rf "$APP_DIR"
+cp -r /tmp/Portfolio "$APP_DIR"
+
+chown -R www-data:www-data "$APP_DIR"
+chmod -R 755 "$APP_DIR"
+
+mkdir -p "$APP_DIR/uploads/"{avatars,cv,projects,languages} "$APP_DIR/databases" "$APP_DIR/logs"
+chown -R www-data:www-data "$APP_DIR/uploads" "$APP_DIR/databases" "$APP_DIR/logs"
+chmod -R 775 "$APP_DIR/uploads" "$APP_DIR/databases" "$APP_DIR/logs"
+
+# Créer config DB
+cat > "$APP_DIR/includes/db.php" <<'DBCONFIG'
+<?php
+$host = 'localhost';
+$dbname = 'DB_NAME_PLACEHOLDER';
+$username = 'DB_USER_PLACEHOLDER';
+$password = 'DB_PASS_PLACEHOLDER';
+
+try {
+    $pdo = new PDO(
+        "mysql:host=$host;dbname=$dbname;charset=utf8mb4",
+        $username,
+        $password,
+        [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
+        ]
+    );
+} catch (PDOException $e) {
+    error_log("Erreur DB: " . $e->getMessage());
+    die("Erreur de connexion");
+}
+DBCONFIG
+
+sed -i "s/DB_NAME_PLACEHOLDER/${DB_NAME}/g" "$APP_DIR/includes/db.php"
+sed -i "s/DB_USER_PLACEHOLDER/${DB_USER}/g" "$APP_DIR/includes/db.php"
+sed -i "s/DB_PASS_PLACEHOLDER/${DB_PASS}/g" "$APP_DIR/includes/db.php"
+
+chown www-data:www-data "$APP_DIR/includes/db.php"
+chmod 600 "$APP_DIR/includes/db.php"
+
+echo "✅ Configuration créée"
+
+# Config Nginx
+read -p "Nom de domaine (ou IP du serveur): " DOMAIN_NAME
+
+cat > /etc/nginx/sites-available/portfolio <<'NGINXCONF'
+server {
+    listen 80;
+    server_name DOMAIN_PLACEHOLDER;
+    
+    root /var/www/portfolio/public;
+    index index.php index.html;
+    
+    access_log /var/log/nginx/portfolio_access.log;
+    error_log /var/log/nginx/portfolio_error.log;
+    
+    client_max_body_size 20M;
+    
+    location ~ /\. {
+        deny all;
+    }
+    
+    location ~ /(config|dev-tools|database|databases|logs|scripts) {
+        deny all;
+    }
+    
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+    
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}
+NGINXCONF
+
+sed -i "s/DOMAIN_PLACEHOLDER/${DOMAIN_NAME}/g" /etc/nginx/sites-available/portfolio
+
+ln -sf /etc/nginx/sites-available/portfolio /etc/nginx/sites-enabled/
+rm -f /etc/nginx/sites-enabled/default
+
+nginx -t && systemctl reload nginx
+
+echo "✅ Nginx configuré"
+
+# Migrations
+cd "$APP_DIR"
+sudo -u www-data php database/migrate.php
+
+echo ""
+echo "======================================================================"
+echo "🎉 INSTALLATION TERMINÉE !"
+echo "======================================================================"
+echo ""
+echo "Site: http://${DOMAIN_NAME}"
+echo ""
+echo "Créer un admin:"
+echo "  cd /var/www/portfolio"
+echo "  sudo -u www-data php dev-tools/setup_admin.php"
+echo ""
+echo "Activer SSL:"
+echo "  certbot --nginx -d ${DOMAIN_NAME}"
+echo ""
+echo "======================================================================"
