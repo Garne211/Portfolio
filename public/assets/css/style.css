@@ -1,3 +1,15 @@
+/* Force header visibility - includes scrolled state */
+.header, .header.scrolled {
+  position: fixed !important;
+  top: 0 !important;
+  transform: translateY(0) !important;
+  animation: none !important;
+  transition: none !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: flex !important;
+}
+
 /*===============================================
   VARIABLES CSS
 ===============================================*/
