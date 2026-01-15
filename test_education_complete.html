@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Complet Education</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .section { background: white; padding: 20px; margin: 20px 0; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        table { border-collapse: collapse; width: 100%; margin: 10px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background: #333; color: white; }
+        button { padding: 10px 20px; background: #dc2626; color: white; border: none; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #b91c1c; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Test Complet du Système Education</h1>
+    
+    <div class="section">
+        <h2>1️⃣ Structure de la base de données</h2>
+        <div id="db-structure">Chargement...</div>
+    </div>
+    
+    <div class="section">
+        <h2>2️⃣ Données dans la table education</h2>
+        <div id="db-data">Chargement...</div>
+    </div>
+    
+    <div class="section">
+        <h2>3️⃣ Test API /api/education.php</h2>
+        <button onclick="testAPI('fr')">Tester API (FR)</button>
+        <button onclick="testAPI('en')">Tester API (EN)</button>
+        <div id="api-test"></div>
+    </div>
+    
+    <div class="section">
+        <h2>4️⃣ Actions</h2>
+        <button onclick="window.location.href='fix_education.php'">🔧 Ajouter colonnes manquantes</button>
+        <button onclick="window.location.href='admin/education.php'">📝 Aller dans l'admin</button>
+        <button onclick="window.location.href='public/index.php#education'">🌐 Voir page publique</button>
+    </div>
+
+    <script>
+        // Test structure DB
+        fetch('check_education_api.php')
+            .then(r => r.json())
+            .then(data => {
+                const div = document.getElementById('db-structure');
+                if (data.columns) {
+                    const hasTranslations = data.columns.includes('school_en') && 
+                                          data.columns.includes('degree_en') && 
+                                          data.columns.includes('field_en');
+                    
+                    div.innerHTML = hasTranslations 
+                        ? '<p class="success">✅ Toutes les colonnes de traduction existent</p>'
+                        : '<p class="error">❌ Colonnes manquantes : school_en, degree_en, field_en<br><button onclick="window.location.href=\'fix_education.php\'">Corriger maintenant</button></p>';
+                    
+                    div.innerHTML += '<h3>Colonnes présentes :</h3><ul>' + 
+                        data.columns.map(c => '<li>' + c + '</li>').join('') + '</ul>';
+                } else {
+                    div.innerHTML = '<p class="error">Erreur : ' + (data.error || 'Inconnue') + '</p>';
+                }
+            })
+            .catch(e => {
+                document.getElementById('db-structure').innerHTML = '<p class="error">Erreur : ' + e.message + '</p>';
+            });
+        
+        // Test données
+        fetch('check_education_api.php?action=data')
+            .then(r => r.json())
+            .then(data => {
+                const div = document.getElementById('db-data');
+                if (data.education && data.education.length > 0) {
+                    div.innerHTML = '<p class="success">✅ ' + data.education.length + ' parcours trouvé(s)</p>';
+                    div.innerHTML += '<table><tr><th>ID</th><th>École</th><th>Diplôme</th><th>Début</th><th>Fin</th><th>En cours</th></tr>';
+                    data.education.forEach(e => {
+                        div.innerHTML += '<tr>' +
+                            '<td>' + e.id + '</td>' +
+                            '<td>' + e.school + '</td>' +
+                            '<td>' + e.degree + '</td>' +
+                            '<td>' + e.start_date + '</td>' +
+                            '<td>' + (e.end_date || '-') + '</td>' +
+                            '<td>' + (e.is_current ? '✓' : '✗') + '</td>' +
+                            '</tr>';
+                    });
+                    div.innerHTML += '</table>';
+                } else {
+                    div.innerHTML = '<p class="error">❌ Aucun parcours dans la base de données</p>';
+                }
+            })
+            .catch(e => {
+                document.getElementById('db-data').innerHTML = '<p class="error">Erreur : ' + e.message + '</p>';
+            });
+        
+        function testAPI(lang) {
+            const div = document.getElementById('api-test');
+            div.innerHTML = '<p class="info">⏳ Test en cours...</p>';
+            
+            fetch('/Portfolio/api/education.php?lang=' + lang)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        div.innerHTML = '<p class="success">✅ API fonctionne (' + lang.toUpperCase() + ')</p>';
+                        div.innerHTML += '<pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                    } else {
+                        div.innerHTML = '<p class="error">❌ Erreur API : ' + (data.error || 'Inconnue') + '</p>';
+                    }
+                })
+                .catch(e => {
+                    div.innerHTML = '<p class="error">❌ Erreur réseau : ' + e.message + '</p>';
+                });
+        }
+    </script>
+</body>
+</html>

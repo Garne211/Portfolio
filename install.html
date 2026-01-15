@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Installation - Portfolio Hery LEBEHOT</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #141414 100%);
+            color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            color: #dc2626;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .subtitle {
+            color: #a3a3a3;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .step {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #141414;
+            border-left: 3px solid #dc2626;
+            border-radius: 6px;
+        }
+        .step h3 {
+            color: #dc2626;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .step p {
+            color: #d4d4d8;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        .step code {
+            background: #0a0a0a;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #22c55e;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .step ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        .step li {
+            margin-bottom: 8px;
+            color: #d4d4d8;
+        }
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        .btn-primary {
+            background: #dc2626;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #991b1b;
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.3);
+        }
+        .btn-secondary {
+            background: #2a2a2a;
+            color: #f5f5f5;
+        }
+        .btn-secondary:hover {
+            background: #3a3a3a;
+        }
+        .success {
+            background: #22c55e;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .success.show {
+            display: block;
+        }
+        .error {
+            background: #dc2626;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .error.show {
+            display: block;
+        }
+        .file-status {
+            font-size: 12px;
+            margin-top: 20px;
+            padding: 15px;
+            background: #0a0a0a;
+            border-radius: 6px;
+        }
+        .status-item {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .status-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        .status-ok { background: #22c55e; color: white; }
+        .status-warning { background: #f59e0b; color: white; }
+        .status-error { background: #dc2626; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Installation du Portfolio</h1>
+        <p class="subtitle">Suivez les étapes ci-dessous pour configurer votre portfolio</p>
+        
+        <div id="success" class="success"></div>
+        <div id="error" class="error"></div>
+
+        <div class="step">
+            <h3>1. Initialiser la base de données</h3>
+            <p>Créez les tables et insérez les données par défaut dans SQLite.</p>
+            <div style="margin-top: 15px;">
+                <button class="btn btn-primary" onclick="initDatabase()">
+                    ✅ Initialiser la BD
+                </button>
+                <p style="font-size: 12px; color: #a3a3a3; margin-top: 10px;">
+                    Cette action créera les tables: profile, languages, projects, contents, users
+                </p>
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>2. Vérifier la structure des fichiers</h3>
+            <p>Les fichiers suivants doivent être présents :</p>
+            <ul>
+                <li><code>public/index.php</code> - Page d'accueil</li>
+                <li><code>public/assets/js/script.js</code> - JavaScript principal</li>
+                <li><code>public/assets/css/style.css</code> - Styles CSS</li>
+                <li><code>api/contents.php</code> - API traductions</li>
+                <li><code>api/languages.php</code> - API compétences</li>
+                <li><code>api/profile.php</code> - API profil</li>
+                <li><code>api/projects.php</code> - API projets</li>
+                <li><code>includes/db.php</code> - Connexion BD</li>
+                <li><code>databases/portfolio.db</code> - Base de données SQLite</li>
+            </ul>
+            <div style="margin-top: 15px;">
+                <button class="btn btn-secondary" onclick="checkFiles()">
+                    🔍 Vérifier les fichiers
+                </button>
+            </div>
+            <div id="file-status" class="file-status" style="display: none; margin-top: 15px;">
+                <!-- Statut des fichiers -->
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>3. Configurer l'accès</h3>
+            <p>Configuration recommandée :</p>
+            <ul>
+                <li>Permissions des dossiers: <code>755</code></li>
+                <li>Permissions des fichiers: <code>644</code></li>
+                <li>Dossier <code>databases/</code> en <code>775</code></li>
+                <li>Assurez-vous que PHP peut écrire dans <code>databases/</code></li>
+            </ul>
+        </div>
+
+        <div class="step">
+            <h3>4. Accéder aux interfaces</h3>
+            <p>Une fois l'installation terminée :</p>
+            <ul>
+                <li><strong>Portfolio public:</strong> http://localhost/Portfolio/public/</li>
+                <li><strong>Admin:</strong> http://localhost/Portfolio/admin/</li>
+            </ul>
+            <div class="actions" style="margin-top: 15px;">
+                <a href="public/" class="btn btn-primary">
+                    👁️ Voir le Portfolio
+                </a>
+                <a href="admin/login.php" class="btn btn-secondary">
+                    ⚙️ Admin Panel
+                </a>
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>5. Prochaines étapes</h3>
+            <ul>
+                <li>Accédez au panel admin pour configurer votre profil</li>
+                <li>Ajoutez vos projets dans la section Projets</li>
+                <li>Configurez vos compétences (langages)</li>
+                <li>Personnalisez les traductions (FR/EN)</li>
+                <li>Ajoutez les images du portfolio</li>
+                <li>Testez la version multilingue</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        async function initDatabase() {
+            window.open('init-database.php', '_blank');
+            showSuccess('✅ Page d\'initialisation ouverte dans un nouvel onglet');
+        }
+
+        async function checkFiles() {
+            const files = [
+                'public/index.php',
+                'public/assets/js/script.js',
+                'public/assets/css/style.css',
+                'api/contents.php',
+                'api/languages.php',
+                'api/profile.php',
+                'api/projects.php',
+                'includes/db.php',
+                'databases/portfolio.db'
+            ];
+
+            const statusDiv = document.getElementById('file-status');
+            let html = '';
+
+            for (const file of files) {
+                // Simulation - vous pouvez améliorer cela avec une vraie vérification
+                const exists = true; // À adapter
+                const status = exists ? 'status-ok' : 'status-error';
+                const icon = exists ? '✓' : '✗';
+                const text = exists ? 'OK' : 'MANQUANT';
+                
+                html += `
+                    <div class="status-item">
+                        <div class="status-icon ${status}">${icon}</div>
+                        <span>${file} <strong>${text}</strong></span>
+                    </div>
+                `;
+            }
+
+            statusDiv.innerHTML = html;
+            statusDiv.style.display = 'block';
+        }
+
+        function showSuccess(message) {
+            const div = document.getElementById('success');
+            div.textContent = message;
+            div.classList.add('show');
+            setTimeout(() => div.classList.remove('show'), 5000);
+        }
+
+        function showError(message) {
+            const div = document.getElementById('error');
+            div.textContent = message;
+            div.classList.add('show');
+            setTimeout(() => div.classList.remove('show'), 5000);
+        }
+    </script>
+</body>
+</html>

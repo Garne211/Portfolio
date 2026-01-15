@@ -1,0 +1,71 @@
+/**
+ * Styles pour les avertissements de session
+ */
+
+.session-warning {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #ff9500, #ff6b6b);
+    color: white;
+    padding: 16px 20px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+    z-index: 10000;
+    animation: slideInUp 0.3s ease-out;
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(120%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.session-warning__content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.session-warning__content svg {
+    flex-shrink: 0;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.session-warning__close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0;
+    margin-left: auto;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.session-warning__close:hover {
+    opacity: 1;
+}
+
+/* Mode sombre */
+@media (prefers-color-scheme: dark) {
+    .session-warning {
+        background: linear-gradient(135deg, #ff9500, #ff6b6b);
+        color: white;
+    }
+}
