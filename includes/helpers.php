@@ -362,11 +362,3 @@ function requireEditAccess() {
         exit();
     }
 }
-
-/**
- * Retourne la connexion PDO à la base de données
- */
-function getDBConnection() {
-    global $pdo;
-    return $pdo;
-}
