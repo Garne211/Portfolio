@@ -58,8 +58,33 @@ install_dependencies() {
         apt-get install -y nginx
     fi
     
-    # PHP et extensions
-    print_message "Installation de PHP et ses extensions..."
+    # Détecter ou installer PHP
+    print_message "Configuration de PHP..."
+    
+    # Vérifier si PHP est déjà installé
+    if command -v php &> /dev/null; then
+        INSTALLED_PHP_VERSION=$(php -r "echo PHP_MAJOR_VERSION.'.'.PHP_MINOR_VERSION;")
+        print_message "PHP $INSTALLED_PHP_VERSION déjà installé"
+        PHP_VERSION=$INSTALLED_PHP_VERSION
+    else
+        # Ajouter le dépôt Sury pour avoir les dernières versions de PHP
+        print_message "Ajout du dépôt Sury pour PHP..."
+        apt-get install -y lsb-release ca-certificates apt-transport-https software-properties-common gnupg2
+        
+        # Ajouter la clé GPG
+        curl -sSL https://packages.sury.org/php/apt.gpg -o /etc/apt/trusted.gpg.d/php.gpg
+        
+        # Ajouter le dépôt
+        echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list
+        
+        # Mettre à jour
+        apt-get update
+        
+        print_message "Installation de PHP ${PHP_VERSION}..."
+    fi
+    
+    # Installer PHP et ses extensions
+    print_message "Installation des extensions PHP..."
     apt-get install -y \
         php${PHP_VERSION}-fpm \
         php${PHP_VERSION}-mysql \
