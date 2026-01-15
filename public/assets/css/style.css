@@ -1486,7 +1486,11 @@ ul {
 .contact__form {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
+  gap: 1.5rem;
+}
+
+.contact__form .btn {
+  margin-top: 1rem;
 }
 
 .form__group {
