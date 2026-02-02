@@ -12,9 +12,9 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-# Configuration - MODIFIER SELON VOS BESOINS
-SERVER_USER="votre-user"
-SERVER_HOST="votre-serveur.com"
+# Configuration - VPS Hery LEBEHOT
+SERVER_USER="debian"
+SERVER_HOST="137.74.41.200"
 SERVER_PORT="22"
 REMOTE_PATH="/var/www/portfolio"
 BACKUP_DIR="/var/www/backups/portfolio"
