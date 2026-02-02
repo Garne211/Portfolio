@@ -243,6 +243,7 @@ include 'includes/header.php';
                     <tbody>
                         <?php foreach ($languages as $lang): ?>
                             <tr>
+                                <td><?php echo $lang['display_order'] ?? 0; ?></td>
                                 <td>
                                     <?php if ($lang['icon_path']): ?>
                                         <img src="<?php echo escape($lang['icon_path']); ?>" alt="Icon" class="table-icon">

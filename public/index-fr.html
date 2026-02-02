@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Portfolio - Français</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div id="app-fr">
+        <!-- Contenu principal en français -->
+        <h1>Bienvenue sur le portfolio</h1>
+        <p>Cette page est affichée lorsque la langue est en français.</p>
+        <a href="index-en.html" id="switch-en">Passer en anglais</a>
+    </div>
+    <script>
+        document.getElementById('switch-en').addEventListener('click', function(e) {
+            localStorage.setItem('portfolio_lang', 'en');
+        });
+    </script>
+</body>
+</html>

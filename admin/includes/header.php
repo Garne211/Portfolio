@@ -25,9 +25,12 @@
         <aside class="sidebar">
             <div class="sidebar-header">
                 <a href="dashboard.php" class="sidebar-logo">
-                    <span class="logo__bracket">&lt;</span>
-                    <span class="logo__name">ADMIN</span>
-                    <span class="logo__bracket">/&gt;</span>
+                    <img src="/assets/img/logo.png" alt="Logo" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; margin-right: 0.5rem;">
+                    <div>
+                        <span class="logo__bracket">&lt;</span>
+                        <span class="logo__name">ADMIN</span>
+                        <span class="logo__bracket">/&gt;</span>
+                    </div>
                 </a>
             </div>
             

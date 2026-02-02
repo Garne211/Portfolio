@@ -34,7 +34,9 @@
      */
     async function fetchAPI(endpoint) {
         try {
-            const response = await fetch(`${CONFIG.API_BASE}${endpoint}`);
+            const url = `${CONFIG.API_BASE}${endpoint}`;
+            console.log('[fetchAPI] Fetching:', url);
+            const response = await fetch(url);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -213,13 +215,13 @@
         updateActiveLang();
 
         langOptions.forEach(option => {
-            option.addEventListener('click', () => {
+            option.addEventListener('click', async () => {
                 const lang = option.getAttribute('data-lang');
                 if (lang !== currentLang) {
                     currentLang = lang;
                     localStorage.setItem(CONFIG.LANG_KEY, lang);
                     updateActiveLang();
-                    updateTranslations();
+                    await loadTranslations(); // Reload translations from API
                     updateDynamicContent();
                 }
             });
@@ -276,10 +278,14 @@
     async function loadTranslations() {
         const data = await fetchAPI('/contents.php');
         if (data && data.success) {
-            translations = data.translations || {
-                fr: {},
-                en: {}
-            };
+            translations = data.translations || { fr: {}, en: {} };
+            updateTranslations();
+        } else {
+            // Log error and show toast for debugging
+            console.error('[loadTranslations] Problème de chargement des traductions:', data);
+            showToast('Erreur de chargement des traductions', 'error');
+            // Prevent further errors by setting empty translations
+            translations = { fr: {}, en: {} };
             updateTranslations();
         }
     }

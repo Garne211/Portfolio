@@ -1,12 +1,7 @@
 <?php
-session_start();
-require_once __DIR__ . '/../includes/db.php';
-require_once __DIR__ . '/../includes/helpers.php';
-
-// Détection de la langue par défaut
-$defaultLang = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) 
-    ? (strpos($_SERVER['HTTP_ACCEPT_LANGUAGE'], 'fr') !== false ? 'fr' : 'en')
-    : 'en';
+// Redirection automatique vers la version française par défaut
+header('Location: index-fr.html');
+exit();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $defaultLang; ?>">
