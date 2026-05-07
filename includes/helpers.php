@@ -144,7 +144,7 @@ function uploadFile($file, $allowedTypes = [], $maxSize = 5242880, $uploadDir = 
     
     // Vérifier l'extension
     $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-    $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'svg', 'webp'];
+    $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx', 'svg', 'webp'];
     if (!in_array($extension, $allowed_extensions)) {
         return ['success' => false, 'error' => 'Extension de fichier non autorisée'];
     }

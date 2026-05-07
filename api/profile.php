@@ -27,7 +27,7 @@ try {
             tagline_en,
             bio_fr,
             bio_en,
-            avatar as avatar_path,
+            avatar_path,
             avatar_centered,
             cv_path,
             created_at,

@@ -159,6 +159,7 @@ rsync -avz --progress \
     --exclude='node_modules' \
     --exclude='vendor' \
     --exclude='dev-tools' \
+    --exclude='tests' \
     --delete \
     ./ $SERVER_USER@$SERVER_HOST:$REMOTE_PATH/
 

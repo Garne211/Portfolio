@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(& \"C:\\\\wamp64\\\\bin\\\\php\\\\php8.3.14\\\\php.exe\" -r \"`$p=new PDO\\('mysql:host=localhost;dbname=portfolio;charset=utf8mb4','root','',[PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION]\\); foreach \\(`$p->query\\('SHOW COLUMNS FROM contents'\\)->fetchAll\\(PDO::FETCH_COLUMN\\) as `$c\\) echo `$c.PHP_EOL;\")",
+      "PowerShell(& \"C:\\\\wamp64\\\\bin\\\\php\\\\php8.3.14\\\\php.exe\" \"c:\\\\wamp64\\\\www\\\\Portfolio\\\\dev-tools\\\\seed-cv-translations.php\")",
+      "PowerShell(& \"C:\\\\wamp64\\\\bin\\\\php\\\\php8.3.14\\\\php.exe\" -r \"`$p=new PDO\\('mysql:host=localhost;dbname=portfolio;charset=utf8mb4','root','',[PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION]\\); foreach \\(`$p->query\\('SELECT slug, icon_path FROM languages WHERE active=1'\\)->fetchAll\\(\\) as `$r\\) echo str_pad\\(`$r['slug'],10\\).' => '.`$r['icon_path'].PHP_EOL;\")",
+      "PowerShell(\"=== icon_path en DB ===\")",
+      "PowerShell(\"\")",
+      "PowerShell(\"=== Fichiers SVG presents ===\")",
+      "PowerShell(& \"C:\\\\wamp64\\\\bin\\\\php\\\\php8.3.14\\\\php.exe\" -r \"`$p=new PDO\\('mysql:host=localhost;dbname=portfolio;charset=utf8mb4','root','',[PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION]\\); foreach \\(`$p->query\\('SELECT slug, image_path FROM projects WHERE visible=1'\\)->fetchAll\\(\\) as `$r\\) echo str_pad\\(`$r['slug'],20\\).' => '.`$r['image_path'].PHP_EOL;\")",
+      "PowerShell(\"=== image_path projets ===\")",
+      "PowerShell(& \"C:\\\\wamp64\\\\bin\\\\php\\\\php8.3.14\\\\php.exe\" \"c:\\\\wamp64\\\\www\\\\Portfolio\\\\dev-tools\\\\fix-icon-paths.php\")",
+      "PowerShell(\"=== Test SVG icones langues ===\"; @\\('html','css','php','python','linux'\\) | ForEach-Object { $code = curl.exe -s -o NUL -w \"%{http_code}\" \"http://localhost/Portfolio/public/assets/img/$_.svg\"; \"$_.svg => $code\" })",
+      "Read(//c/wamp64/www/Portfolio/public/assets/img/**)",
+      "PowerShell(\"=== Test image via /Portfolio/public/ ===\"; @\\('html','css','php','python','linux'\\) | ForEach-Object { $code = curl.exe -s -o NUL -w \"%{http_code}\" \"http://localhost/Portfolio/public/assets/img/$_.svg\"; \"$_.svg => $code\" }; \"\"; \"=== Test image via /portfolio-local/public/ ===\"; @\\('html','css','php','python','linux'\\) | ForEach-Object { $code = curl.exe -s -o NUL -w \"%{http_code}\" \"http://localhost/portfolio-local/public/assets/img/$_.svg\"; \"$_.svg => $code\" }; \"\"; \"=== Contenu html.svg ===\"; Get-Content \"C:\\\\wamp64\\\\www\\\\Portfolio\\\\public\\\\assets\\\\img\\\\html.svg\" -Raw | Select-Object -First 1)",
+      "PowerShell($portfolio = curl.exe -s \"http://localhost/Portfolio/public/assets/js/script.js\"; $local = curl.exe -s \"http://localhost/portfolio-local/public/assets/js/script.js\"; \"Portfolio script size: $\\($portfolio.Length\\)\"; \"portfolio-local script size: $\\($local.Length\\)\"; \"Portfolio has resolveAssetUrl: $\\($portfolio -match 'resolveAssetUrl'\\)\"; \"portfolio-local has resolveAssetUrl: $\\($local -match 'resolveAssetUrl'\\)\"; \"portfolio-local has substring\\(1\\): $\\($local -match 'substring\\\\\\(1\\\\\\)'\\)\")",
+      "PowerShell(curl.exe -sI \"http://localhost/portfolio-local/public/assets/img/html.svg\")",
+      "PowerShell(curl.exe -s \"http://localhost/Portfolio/public/assets/img/html.svg\")",
+      "PowerShell(curl.exe -s \"http://localhost/Portfolio/public/assets/img/html.svg?v=2\")",
+      "PowerShell(\"=== Contenu html.svg servi par Apache ===\")",
+      "PowerShell(\"=== Avec cache-bust ===\")",
+      "PowerShell(curl.exe -sI \"http://localhost/Portfolio/public/assets/img/html.svg\")",
+      "PowerShell(curl.exe -s \"http://localhost/Portfolio/public/\")",
+      "PowerShell(curl.exe -sI \"http://localhost/Portfolio/public/assets/css/base.css\")",
+      "PowerShell(curl.exe -sI \"http://localhost/Portfolio/public/assets/css/style.css\")",
+      "PowerShell(\"=== /Portfolio/public/ index.php \\(50 premieres lignes\\) ===\")",
+      "PowerShell(\"=== Headers base.css ===\")",
+      "PowerShell(\"=== Headers style.css ===\")",
+      "PowerShell(& \"C:\\\\wamp64\\\\bin\\\\php\\\\php8.3.14\\\\php.exe\" -r \"`$content = file_get_contents\\('C:\\\\wamp64\\\\www\\\\Portfolio\\\\public\\\\assets\\\\js\\\\script.js'\\); echo 'Size: '.strlen\\(`$content\\).PHP_EOL;\")",
+      "PowerShell(node -e \"try { new Function\\(require\\('fs'\\).readFileSync\\('C:/wamp64/www/Portfolio/public/assets/js/script.js','utf8'\\)\\); console.log\\('JS syntax OK'\\); } catch\\(e\\) { console.error\\('JS ERROR:', e.message\\); }\")",
+      "PowerShell(\"=== Check JS syntax ===\")",
+      "PowerShell(\"=== Test syntax avec node ===\")"
+    ]
+  }
+}

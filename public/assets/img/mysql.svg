@@ -1,4 +1,5 @@
-<svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-  <cylinder cx="12" cy="12" r="8" h="12"/>
-  <path d="M4 12h16"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <path fill="#00758f" d="M9 35.7c0 3 2.2 4.3 4.8 4.3 2.2 0 3.6-.5 4.8-1.1v-3.2c-1.2.6-2.6.9-3.9.9-1.7 0-2.3-.8-2.3-2.2v-8.8H9v10.1z"/>
+  <path fill="#f29111" d="M22 34.5c0 3.1 1.6 5.5 5.5 5.5 1.9 0 3.3-.5 4.3-1.4l.5 1.1h3v-15h-4v12.5c-.5.3-1.2.5-1.9.5-1.5 0-3.4-.8-3.4-3.3v-9.7H22v9.8z"/>
+  <text x="24" y="18" font-family="sans-serif" font-weight="bold" font-size="9" fill="#00758f" text-anchor="middle">MySQL</text>
 </svg>

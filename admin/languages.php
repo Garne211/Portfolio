@@ -12,6 +12,40 @@ $error = '';
 $action = $_GET['action'] ?? 'list';
 $editId = $_GET['id'] ?? null;
 
+function resolveAdminImageUrl($path) {
+    if (!$path) {
+        return '';
+    }
+
+    if (preg_match('/^(https?:)?\/\//', $path)) {
+        return $path;
+    }
+
+    $url = '';
+
+    if (strpos($path, '/Portfolio/') === 0) {
+        $url = $path;
+    } elseif (strpos($path, '/uploads/') === 0) {
+        $url = '/Portfolio' . $path;
+    } elseif (strpos($path, 'uploads/') === 0) {
+        $url = '/Portfolio/' . ltrim($path, '/');
+    } elseif (strpos($path, '/assets/') === 0) {
+        $url = '/Portfolio/public' . $path;
+    } elseif (strpos($path, 'assets/') === 0) {
+        $url = '/Portfolio/public/' . ltrim($path, '/');
+    } else {
+        $url = '/Portfolio/' . ltrim($path, '/');
+    }
+
+    $relativePath = preg_replace('#^/Portfolio/#', '', $url);
+    $fullPath = realpath(__DIR__ . '/../' . $relativePath);
+    if ($fullPath && is_file($fullPath)) {
+        return $url . '?v=' . filemtime($fullPath);
+    }
+
+    return $url;
+}
+
 // Traitement DELETE
 if ($action === 'delete' && $editId) {
     requireEditAccess(); // Vérifier les permissions
@@ -246,7 +280,7 @@ include 'includes/header.php';
                                 <td><?php echo $lang['display_order'] ?? 0; ?></td>
                                 <td>
                                     <?php if ($lang['icon_path']): ?>
-                                        <img src="<?php echo escape($lang['icon_path']); ?>" alt="Icon" class="table-icon">
+                                        <img src="<?php echo escape(resolveAdminImageUrl($lang['icon_path'])); ?>" alt="Icon" class="table-icon">
                                     <?php else: ?>
                                         <span class="text-muted">—</span>
                                     <?php endif; ?>
@@ -396,7 +430,7 @@ include 'includes/header.php';
                 <label for="icon">Icône (PNG, SVG, WebP, max 2MB)</label>
                 <?php if ($editData && $editData['icon_path']): ?>
                     <div class="current-image">
-                        <img src="<?php echo escape($editData['icon_path']); ?>" alt="Icon actuelle">
+                        <img src="<?php echo escape(resolveAdminImageUrl($editData['icon_path'])); ?>" alt="Icon actuelle">
                         <p class="text-muted text-sm">Icône actuelle</p>
                     </div>
                 <?php endif; ?>

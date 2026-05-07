@@ -36,8 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $upload = uploadFile(
                 $_FILES['avatar'],
                 ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'],
-                2097152, // 2MB
-                'avatars'
+                2097152 // 2MB
             );
             
             if ($upload['success']) {
@@ -57,7 +56,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!empty($_FILES['cv']['name'])) {
             $upload = uploadFile(
                 $_FILES['cv'],
-                ['application/pdf'],
+                [
+                    'application/pdf',
+                    'application/msword',
+                    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                ],
                 5242880 // 5MB
             );
             
@@ -350,13 +353,13 @@ include 'includes/header.php';
         <h3 class="form-section-title">Télécharger votre CV</h3>
         
         <div class="form-group">
-            <label for="cv">Fichier CV (PDF)</label>
+            <label for="cv">Fichier CV (PDF, DOC, DOCX)</label>
             <input 
                 type="file" 
                 id="cv" 
                 name="cv" 
                 class="form-control"
-                accept=".pdf"
+                accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             >
             <?php if (!empty($profile['cv_path'])): ?>
                 <small style="display: block; margin-top: 8px;">

@@ -2,20 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Portfolio - English</title>
-    <link rel="stylesheet" href="assets/css/style.css">
+    <meta http-equiv="refresh" content="0; url=index.php">
+    <title>Redirecting...</title>
 </head>
 <body>
-    <div id="app-en">
-        <!-- Main content in English -->
-        <h1>Welcome to the portfolio</h1>
-        <p>This page is displayed when the language is set to English.</p>
-        <a href="index-fr.html" id="switch-fr">Switch to French</a>
-    </div>
     <script>
-        document.getElementById('switch-fr').addEventListener('click', function(e) {
-            localStorage.setItem('portfolio_lang', 'fr');
-        });
+        sessionStorage.setItem('portfolio_lang', 'en');
+        window.location.replace('index.php');
     </script>
 </body>
 </html>
